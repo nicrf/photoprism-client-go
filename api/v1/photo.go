@@ -113,6 +113,8 @@ func (v1 *V1Client) ApprovePhoto(uuid string) error {
 	return resp.Error
 }
 
+
+
 // POST /api/v1/photos/:uid/like
 //
 // Parameters:
@@ -140,3 +142,18 @@ func (v1 *V1Client) PhotoPrimary(uuid, fileuuid string) error {
 	resp := v1.POST(nil, "/api/v1/photos/%s/files/%s/primary", uuid, fileuuid)
 	return resp.Error
 }
+
+// POST /api/v1/upload/:path
+//
+// Parameters:
+//   path: string Folder path for upload
+//   filename: string Filename for upload
+func (v1 *V1Client) Upload(path string, filename string) error {
+	data, err := os.Open(filename)
+	if err != nil {
+		return err
+	}
+	resp := v1.POST(nil, "/api/v1/upload/%s", path, data)
+	return resp.Error
+}
+
